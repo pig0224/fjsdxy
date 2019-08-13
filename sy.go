@@ -9,9 +9,9 @@ import (
 
 // NewCollector 新建一个采集器
 func NewCollector(studentID, password string) (*colly.Collector, error) {
-	c := colly.NewCollector()
-
+	var c = colly.NewCollector()
 	var logErr error
+
 	c.OnHTML("script", func(e *colly.HTMLElement) {
 		r, _ := regexp.Compile("错误")
 		if r.MatchString(e.Text) {
