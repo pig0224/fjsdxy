@@ -1,14 +1,13 @@
-package jwc
+package cas
 
 import (
 	"errors"
+	"github.com/gocolly/colly"
 	sy "github.com/pig0224/fjsdxy"
 	"github.com/pig0224/fjsdxy/config"
-
-	"github.com/gocolly/colly"
 )
 
-// Login 登录教务处，获取已登录采集器
+// Login 登录CAS，获取已登录采集器
 func Login(studentID, password string) (*colly.Collector, error) {
 	c, login_err := sy.SSO_Login(studentID, password)
 
@@ -18,14 +17,14 @@ func Login(studentID, password string) (*colly.Collector, error) {
 	}
 
 	// 尝试登录
-	if err := c.Visit(config.CAS_DOMAIN + "?service=" + config.JW_DOMAIN + "/jsxsd/sso.jsp"); err != nil {
+	if err := c.Visit(config.CAS_DOMAIN + "/cas/login?mode=rlogin&service=http://cas.fjsdxy.com/portal/a/shiro-cas"); err != nil {
 		return nil, err
 	}
 
 	return c, nil
 }
 
-// Logout 退出教务处
+// Logout 退出CAS系统
 func Logout(c *colly.Collector) error {
-	return c.Visit(config.JW_DOMAIN + "/Logon.do?method=logoutFromJsxsd")
+	return c.Visit(config.CAS_DOMAIN + "/portal/a/logout")
 }

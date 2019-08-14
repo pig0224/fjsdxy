@@ -8,9 +8,6 @@ import (
 	"github.com/gocolly/colly"
 )
 
-// DOMAIN 教务处域名
-const DOMAIN = "http://xg.fjsdxy.com"
-
 // Login 登录教务处，获取已登录采集器
 func Login(studentID, password string) (*colly.Collector, error) {
 	c, _ := sy.SSO_Login(studentID, password)
@@ -21,7 +18,7 @@ func Login(studentID, password string) (*colly.Collector, error) {
 	})
 
 	// 尝试登录
-	if err := c.Visit(config.CAS_DOMAIN + "?service=" + DOMAIN + "/Sys/LoginOne.aspx"); err != nil {
+	if err := c.Visit(config.CAS_DOMAIN + "?service=" + config.XG_DOMAIN + "/Sys/LoginOne.aspx"); err != nil {
 		return nil, err
 	}
 
@@ -34,5 +31,5 @@ func Login(studentID, password string) (*colly.Collector, error) {
 
 // Logout 退出教务处
 func Logout(c *colly.Collector) error {
-	return c.Visit(DOMAIN + "/Sys/SystemForm/ExitWindows.aspx")
+	return c.Visit(config.XG_DOMAIN + "/Sys/SystemForm/ExitWindows.aspx")
 }

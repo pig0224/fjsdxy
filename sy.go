@@ -31,7 +31,7 @@ func SSO_Login(studentID, password string) (*colly.Collector, error) {
 		logErr = errors.New(e.Text)
 	})
 
-	err := c.Post(config.CAS_DOMAIN, map[string]string{
+	err := c.Post(config.CAS_DOMAIN+"/cas/login", map[string]string{
 		"username":   loginForm.studentId,
 		"password":   loginForm.password,
 		"lt":         loginForm.lt,
@@ -67,7 +67,7 @@ func GetLoginForm(c *colly.Collector, loginForm LoginForm) LoginForm {
 		}
 	})
 
-	c.Visit(config.CAS_DOMAIN)
+	c.Visit(config.CAS_DOMAIN + "/cas/login")
 
 	return loginForm
 }
