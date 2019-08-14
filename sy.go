@@ -2,28 +2,42 @@ package sy
 
 import (
 	"errors"
-	"regexp"
-
 	"github.com/gocolly/colly"
+	"github.com/pig0224/fjsdxy/config"
 )
 
-// NewCollector 新建一个采集器
-func NewCollector(studentID, password string) (*colly.Collector, error) {
+type LoginForm struct {
+	studentId  string `json:"username"`
+	password   string `json:"password"`
+	lt         string
+	execution  string
+	login_from string
+	_eventId   string
+}
+
+// 登录统一认证平台
+func SSO_Login(studentID, password string) (*colly.Collector, error) {
 	var c = colly.NewCollector()
 	var logErr error
 
-	c.OnHTML("script", func(e *colly.HTMLElement) {
-		r, _ := regexp.Compile("错误")
-		if r.MatchString(e.Text) {
-			logErr = errors.New("[Error] 用户不存在或密码错误")
-		}
+	loginForm := LoginForm{studentId: studentID, password: password}
+	loginForm = GetLoginForm(c, loginForm)
+
+	if loginForm.execution == "" {
+		logErr = errors.New("系统出现故障")
+	}
+
+	c.OnHTML("#msg", func(e *colly.HTMLElement) {
+		logErr = errors.New(e.Text)
 	})
 
-	err := c.Post("http://my.scu.edu.cn/userPasswordValidate.portal", map[string]string{
-		"Login.Token1": studentID,
-		"Login.Token2": password,
-		"goto":         "http://my.scu.edu.cn/loginSuccess.portal",
-		"gotoOnFail":   "http://my.scu.edu.cn/loginFailure.portal",
+	err := c.Post(config.CAS_DOMAIN, map[string]string{
+		"username":   loginForm.studentId,
+		"password":   loginForm.password,
+		"lt":         loginForm.lt,
+		"execution":  loginForm.execution,
+		"login_from": loginForm.login_from,
+		"_eventId":   loginForm._eventId,
 	})
 
 	if err != nil {
@@ -35,4 +49,25 @@ func NewCollector(studentID, password string) (*colly.Collector, error) {
 	}
 
 	return c, nil
+}
+
+//获取登录表单
+func GetLoginForm(c *colly.Collector, loginForm LoginForm) LoginForm {
+
+	c.OnHTML("input", func(e *colly.HTMLElement) {
+		switch e.Attr("name") {
+		case "lt":
+			loginForm.lt = e.Attr("value")
+		case "execution":
+			loginForm.execution = e.Attr("value")
+		case "login_from":
+			loginForm.login_from = e.Attr("value")
+		case "_eventId":
+			loginForm._eventId = e.Attr("value")
+		}
+	})
+
+	c.Visit(config.CAS_DOMAIN)
+
+	return loginForm
 }

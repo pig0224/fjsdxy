@@ -1,4 +1,4 @@
-package jwc
+package xg
 
 import (
 	"testing"
