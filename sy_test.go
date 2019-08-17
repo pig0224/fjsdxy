@@ -16,14 +16,14 @@ func TestSSO_Login(t *testing.T) {
 		args    args
 		wantErr bool
 	}{
-		{
-			name: "登录失败",
-			args: args{
-				studentID: "34567890",
-				password:  "lalalalalal",
-			},
-			wantErr: true,
-		},
+		//{
+		//	name: "登录失败",
+		//	args: args{
+		//		studentID: "34567890",
+		//		password:  "lalalalalal",
+		//	},
+		//	wantErr: true,
+		//},
 		{
 			name: "登录成功",
 			args: args{
