@@ -6,7 +6,6 @@ import (
 	"github.com/pig0224/fjsdxy/config"
 )
 
-//test
 type LoginForm struct {
 	studentId  string `json:"username"`
 	password   string `json:"password"`
