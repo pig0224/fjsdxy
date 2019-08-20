@@ -1,6 +1,7 @@
 package week
 
 import (
+	"fmt"
 	"github.com/pig0224/fjsdxy/jwc"
 	"testing"
 
@@ -38,7 +39,10 @@ func TestGetWeeks(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			c, err := jwc.Login(tt.args.studentID, tt.args.password)
 			if err == nil {
-				Get("2018-2019-2", c)
+				res, err := Get("2018-2019-2", c)
+				if err != nil {
+					fmt.Println(res)
+				}
 			}
 			if (err != nil) && tt.wantErr {
 				t.Errorf("NewCollector() error = %v, wantErr %v", err, tt.wantErr)

@@ -19,6 +19,7 @@ func Get(term string, c *colly.Collector) (*[]Result, error) {
 	var logErr error
 
 	c.OnHTML("#dataList", func(e *colly.HTMLElement) {
+
 		e.ForEach("tr", func(i int, e *colly.HTMLElement) {
 			if i > 0 {
 				var result Result
@@ -40,18 +41,21 @@ func Get(term string, c *colly.Collector) (*[]Result, error) {
 				results = append(results, result)
 			}
 		})
-		if len(results) >= 0 {
+		if len(results) <= 0 {
 			logErr = errors.New("获取成绩失败")
 		}
 	})
 
-	c.Post(config.JW_DOMAIN+"/jsxsd/kscj/cjcx_list", map[string]string{
+	if err := c.Post(config.JW_DOMAIN+"/jsxsd/kscj/cjcx_list", map[string]string{
 		"kksj": term,
 		"xsfs": "all",
-	})
+	}); err != nil {
+		logErr = errors.New("获取成绩失败")
+	}
 
 	if logErr != nil {
 		return nil, logErr
 	}
+
 	return &results, nil
 }
