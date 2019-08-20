@@ -1,8 +1,8 @@
 package exam
 
 import (
-	"github.com/pig0224/fjsdxy/jwc"
-	"github.com/pig0224/fjsdxy/test"
+	"fjsdxy/jwc"
+	"fjsdxy/test"
 	"testing"
 )
 

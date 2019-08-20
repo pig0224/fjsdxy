@@ -3,7 +3,7 @@ package sy
 import (
 	"testing"
 
-	"github.com/pig0224/fjsdxy/test"
+	"fjsdxy/test"
 )
 
 func TestSSO_Login(t *testing.T) {

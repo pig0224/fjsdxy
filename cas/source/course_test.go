@@ -1,8 +1,8 @@
 package source
 
 import (
-	"github.com/pig0224/fjsdxy/cas"
-	"github.com/pig0224/fjsdxy/test"
+	"fjsdxy/cas"
+	"fjsdxy/test"
 	"testing"
 )
 
