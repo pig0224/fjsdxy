@@ -1,4 +1,4 @@
-package source
+package course
 
 import (
 	"github.com/pig0224/fjsdxy/cas"
