@@ -9,6 +9,7 @@ import (
 
 type Result struct {
 	Name    string `json:"name"`
+	Term    string `json:"term"`
 	Type    string `json:"type"`
 	Score   string `json:"score"`
 	Credits string `json:"credits"`
@@ -25,6 +26,8 @@ func Get(term string, c *colly.Collector) (*[]Result, error) {
 				var result Result
 				e.ForEach("td", func(i int, e *colly.HTMLElement) {
 					switch i {
+					case 1:
+						result.Term = e.Text
 					case 3:
 						result.Name = e.Text
 					case 4:
