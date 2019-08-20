@@ -1,10 +1,10 @@
 package week
 
 import (
-	"github.com/pig0224/fjsdxy/jwc"
+	"fjsdxy/jwc"
 	"testing"
 
-	"github.com/pig0224/fjsdxy/test"
+	"fjsdxy/test"
 )
 
 func TestGetWeeks(t *testing.T) {
