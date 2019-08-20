@@ -3,8 +3,8 @@ package source
 import (
 	"encoding/json"
 	"errors"
-	"fjsdxy/config"
 	"github.com/gocolly/colly"
+	"github.com/pig0224/fjsdxy/config"
 	"strconv"
 )
 

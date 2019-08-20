@@ -1,11 +1,11 @@
 package student
 
 import (
-	"fjsdxy/jwc"
 	"fmt"
+	"github.com/pig0224/fjsdxy/jwc"
 	"testing"
 
-	"fjsdxy/test"
+	"github.com/pig0224/fjsdxy/test"
 )
 
 func TestGet(t *testing.T) {

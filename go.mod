@@ -1,4 +1,4 @@
-module fjsdxy
+module github.com/pig0224/fjsdxy
 
 go 1.12
 

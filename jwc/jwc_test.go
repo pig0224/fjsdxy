@@ -3,7 +3,7 @@ package jwc
 import (
 	"testing"
 
-	"fjsdxy/test"
+	"github.com/pig0224/fjsdxy/test"
 )
 
 func TestLogin(t *testing.T) {
