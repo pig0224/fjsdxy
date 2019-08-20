@@ -2,8 +2,8 @@ package exam
 
 import (
 	"errors"
-	"fjsdxy/config"
 	"github.com/gocolly/colly"
+	"github.com/pig0224/fjsdxy/config"
 	"strings"
 )
 

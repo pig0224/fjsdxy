@@ -2,9 +2,9 @@ package cas
 
 import (
 	"errors"
-	sy "fjsdxy"
-	"fjsdxy/config"
 	"github.com/gocolly/colly"
+	sy "github.com/pig0224/fjsdxy"
+	"github.com/pig0224/fjsdxy/config"
 )
 
 // Login 登录CAS，获取已登录采集器

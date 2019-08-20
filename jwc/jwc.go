@@ -2,8 +2,8 @@ package jwc
 
 import (
 	"errors"
-	sy "fjsdxy"
-	"fjsdxy/config"
+	sy "github.com/pig0224/fjsdxy"
+	"github.com/pig0224/fjsdxy/config"
 
 	"github.com/gocolly/colly"
 )
