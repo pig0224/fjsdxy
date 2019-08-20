@@ -15,7 +15,7 @@ type Result struct {
 	Credits string `json:"credits"`
 }
 
-func Get(term string, c *colly.Collector) (*[]Result, error) {
+func Get(term string, c *colly.Collector) ([]Result, error) {
 	var results []Result
 	var logErr error
 
@@ -60,5 +60,5 @@ func Get(term string, c *colly.Collector) (*[]Result, error) {
 		return nil, logErr
 	}
 
-	return &results, nil
+	return results, nil
 }
