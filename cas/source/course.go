@@ -15,7 +15,7 @@ type Course struct {
 	Teacher  string `json:"teacher"`
 }
 
-func Get(term string, week uint, c *colly.Collector) ([]Course, error) {
+func Get(term string, week int, c *colly.Collector) ([]Course, error) {
 	var courses []Course
 	var logErr error
 
@@ -24,7 +24,7 @@ func Get(term string, week uint, c *colly.Collector) ([]Course, error) {
 	}{}
 
 	c.OnResponse(func(r *colly.Response) {
-		json.Unmarshal(r.Body, &res)
+		_ = json.Unmarshal(r.Body, &res)
 		for i, v := range res.Kbxx {
 			if i > 0 {
 				var course Course
