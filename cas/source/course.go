@@ -15,7 +15,7 @@ type Course struct {
 	Teacher  string `json:"teacher"`
 }
 
-func Get(term string, week uint, c *colly.Collector) (*[]Course, error) {
+func Get(term string, week uint, c *colly.Collector) ([]Course, error) {
 	var courses []Course
 	var logErr error
 
@@ -49,5 +49,5 @@ func Get(term string, week uint, c *colly.Collector) (*[]Course, error) {
 		return nil, logErr
 	}
 
-	return &courses, nil
+	return courses, nil
 }
