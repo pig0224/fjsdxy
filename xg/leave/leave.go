@@ -2,6 +2,7 @@ package leave
 
 import (
 	"errors"
+	"fmt"
 	"github.com/gocolly/colly"
 	"github.com/pig0224/fjsdxy/config"
 	"strconv"
@@ -111,6 +112,7 @@ func Apply(leaveInfo LeaveInfo, c *colly.Collector) error {
 	var logErr error
 	c.OnResponse(func(r *colly.Response) {
 		res := string(r.Body)
+		fmt.Println(res)
 		if !strings.Contains(res, "操作成功") {
 			logErr = errors.New("申请失败")
 
