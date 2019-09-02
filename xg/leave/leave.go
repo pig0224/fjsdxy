@@ -49,11 +49,10 @@ func Get(c *colly.Collector) ([]Leave, error) {
 								Id := idUrl[43:len(idUrl)]
 								leave.Id, _ = strconv.Atoi(Id)
 							case 2: //时间
-								date := strings.Replace(e.Text, "年", ".", -1)
-								date = strings.Replace(date, "月", ".", -1)
-								date = strings.Replace(date, "日", ".", -1)
-								date = strings.Replace(date, "点", "", -1)
-								date = strings.Replace(date, "至", " - ", -1)
+								date := strings.Replace(e.Text, "年", "-", -1)
+								date = strings.Replace(date, "月", "-", -1)
+								date = strings.Replace(date, "日", " ", -1)
+								date = strings.Replace(date, "至", " 至 ", -1)
 								leave.Date = date
 							case 3: //类型
 								leave.Type = e.Text

@@ -36,20 +36,21 @@ func TestGet(t *testing.T) {
 		t.Run("getSource", func(t *testing.T) {
 			c, err := xg.Login(tt.args.studentID, tt.args.password)
 			if err == nil {
-				_ = Apply(LeaveInfo{
-					LeaveBeginDate: "2019-09-02",
-					LeaveBeginTime: "1",
-					LeaveEndDate:   "2019-09-03",
-					LeaveEndTime:   "1",
-					LeaveType:      "病假",
-					OutAddress:     "地点",
-					AreaWide:       "永安",
-					OutMoveTel:     "12345678911",
-					Relation:       "女朋友",
-					OutName:        "123",
-					StuMoveTel:     "12345678911",
-					LeaveThing:     "优势",
-				}, c)
+				//_ = Apply(LeaveInfo{
+				//	LeaveBeginDate: "2019-09-02",
+				//	LeaveBeginTime: "1",
+				//	LeaveEndDate:   "2019-09-03",
+				//	LeaveEndTime:   "1",
+				//	LeaveType:      "病假",
+				//	OutAddress:     "地点",
+				//	AreaWide:       "永安",
+				//	OutMoveTel:     "12345678911",
+				//	Relation:       "女朋友",
+				//	OutName:        "123",
+				//	StuMoveTel:     "12345678911",
+				//	LeaveThing:     "优势",
+				//}, c)
+				Get(c)
 				//fmt.Println(*st)
 			}
 			if (err != nil) && tt.wantErr {
