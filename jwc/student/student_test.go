@@ -2,7 +2,7 @@ package student
 
 import (
 	"fmt"
-	"github.com/pig0224/fjsdxy/jwc"
+	"github.com/pig0224/fjsdxy/cas"
 	"testing"
 
 	"github.com/pig0224/fjsdxy/test"
@@ -37,7 +37,7 @@ func TestGet(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			c, err := jwc.Login(tt.args.studentID, tt.args.password)
+			c, err := cas.Login(tt.args.studentID, tt.args.password)
 			if err == nil {
 				st, _ := Get(c)
 				fmt.Println(*st)
