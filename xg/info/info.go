@@ -25,7 +25,6 @@ func GetInfo(studentID string, password string, c *colly.Collector) (*XgInfo, er
 			logErr = errors.New("获取头像失败")
 		}
 	})
-
 	if err := c.Visit(config.XG_DOMAIN + "/Sys/SystemForm/Class/MyStudent.aspx"); err != nil {
 		return nil, err
 	}
