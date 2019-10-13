@@ -11,7 +11,7 @@ import (
 
 type Week struct {
 	Weekly uint64       `json:"weekly"`
-	week   time.Weekday `json:"week"`
+	Week   time.Weekday `json:"week"`
 	Today  string       `json:"today"`
 }
 
@@ -32,7 +32,7 @@ func Get(term string, c *colly.Collector) ([]Week, error) {
 							if weekly > 0 {
 								var week Week
 								week.Weekly = weekly
-								week.week = time.Weekday(i - 1)
+								week.Week = time.Weekday(i - 1)
 								week.Today = strings.Replace(e.Attr("title"), "年", "-", 1)
 								week.Today = strings.Replace(week.Today, "月", "-", 1)
 

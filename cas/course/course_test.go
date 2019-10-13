@@ -1,14 +1,12 @@
-package week
+package course
 
 import (
-	"fmt"
-	"github.com/pig0224/fjsdxy/jwc"
-	"testing"
-
+	"github.com/pig0224/fjsdxy/cas"
 	"github.com/pig0224/fjsdxy/test"
+	"testing"
 )
 
-func TestGetWeeks(t *testing.T) {
+func TestGet(t *testing.T) {
 	type args struct {
 		studentID string
 		password  string
@@ -36,18 +34,17 @@ func TestGetWeeks(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			c, err := jwc.Login(tt.args.studentID, tt.args.password)
+		t.Run("getSource", func(t *testing.T) {
+			c, err := cas.Login(tt.args.studentID, tt.args.password)
 			if err == nil {
-				res, err := Get("2018-2019-2", c)
-				if err != nil {
-					fmt.Println(res)
-				}
+				Get("2018-2019-2", 10, c)
+				//fmt.Println(*st)
 			}
 			if (err != nil) && tt.wantErr {
 				t.Errorf("NewCollector() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
+
 		})
 	}
 }

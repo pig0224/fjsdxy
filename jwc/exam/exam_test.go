@@ -1,6 +1,7 @@
 package exam
 
 import (
+	"fmt"
 	"github.com/pig0224/fjsdxy/jwc"
 	"github.com/pig0224/fjsdxy/test"
 	"testing"
@@ -37,7 +38,10 @@ func TestGet(t *testing.T) {
 		t.Run("getSource", func(t *testing.T) {
 			c, err := jwc.Login(tt.args.studentID, tt.args.password)
 			if err == nil {
-				Get("2018-2019-2", c)
+				res, err := Get("", c)
+				if err == nil {
+					fmt.Println(res)
+				}
 				//fmt.Println(*st)
 			}
 			if (err != nil) && tt.wantErr {
