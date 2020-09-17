@@ -18,11 +18,6 @@ type LoginForm struct {
 	StuLoginMode  string
 }
 
-type StudentInfo struct {
-	CodeCookie    string
-	CenterSoftWeb string
-}
-
 // Cookie自动登录
 func AutoLogin(cookie string) (*colly.Collector, error) {
 	var c = colly.NewCollector()
@@ -49,7 +44,7 @@ func AutoLogin(cookie string) (*colly.Collector, error) {
 }
 
 // 登录填报系统
-func Login(studentInfo StudentInfo, studentID, password, code string) (*colly.Collector, string, error) {
+func Login(studentID, password, code, codeCookie string) (*colly.Collector, string, error) {
 	var c = colly.NewCollector()
 	var logErr error
 	var CenterSoftWeb = ""
@@ -61,7 +56,7 @@ func Login(studentInfo StudentInfo, studentID, password, code string) (*colly.Co
 	}
 
 	c.OnRequest(func(r *colly.Request) {
-		r.Headers.Set("Cookie", "ASP.NET_SessionId="+studentInfo.CodeCookie)
+		r.Headers.Set("Cookie", "ASP.NET_SessionId="+codeCookie)
 	})
 
 	c.OnResponse(func(r *colly.Response) {
