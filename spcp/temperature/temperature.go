@@ -15,7 +15,7 @@ type FillForm struct {
 	ReSubmiteFlag string
 }
 
-func Fill(c *colly.Collector, TimeNowHour, TimeNowMinute, Temper1, Temper2 string) (*colly.Collector, error) {
+func Fill(c *colly.Collector, TimeNowHour, TimeNowMinute, Temper1, Temper2 string) (*colly.Collector, string, error) {
 	var logErr error
 	fillForm := FillForm{TimeNowHour: TimeNowHour, TimeNowMinute: TimeNowMinute, Temper1: Temper1, Temper2: Temper2}
 	fillForm = GetFillForm(c, fillForm)
@@ -23,10 +23,11 @@ func Fill(c *colly.Collector, TimeNowHour, TimeNowMinute, Temper1, Temper2 strin
 	if fillForm.ReSubmiteFlag == "" {
 		logErr = errors.New("系统出现故障")
 	}
-
+	fillLog := ""
 	c.OnResponse(func(r *colly.Response) {
 		//判断是否填报成功
 		res := string(r.Body)
+		fillLog = res
 		//println(res)
 		if !strings.Contains(res, "填报成功") {
 			logErr = errors.New("填报失败")
@@ -42,14 +43,14 @@ func Fill(c *colly.Collector, TimeNowHour, TimeNowMinute, Temper1, Temper2 strin
 	})
 
 	if err != nil {
-		return nil, err
+		return nil, fillLog, err
 	}
 
 	if logErr != nil {
-		return c, logErr
+		return c, fillLog, logErr
 	}
 
-	return c, nil
+	return c, fillLog, nil
 }
 
 func GetFillForm(c *colly.Collector, form FillForm) FillForm {
