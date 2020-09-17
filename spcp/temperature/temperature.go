@@ -27,6 +27,7 @@ func Fill(c *colly.Collector, TimeNowHour, TimeNowMinute, Temper1, Temper2 strin
 	c.OnResponse(func(r *colly.Response) {
 		//判断是否填报成功
 		res := string(r.Body)
+		//println(res)
 		if !strings.Contains(res, "填报成功") {
 			logErr = errors.New("填报失败")
 		}

@@ -18,8 +18,10 @@ type LoginForm struct {
 	StuLoginMode  string
 }
 
-var CodeCookie string
-var CenterSoftWeb string
+type StudentInfo struct {
+	CodeCookie    string
+	CenterSoftWeb string
+}
 
 // Cookie自动登录
 func AutoLogin(cookie string) (*colly.Collector, error) {
@@ -47,7 +49,7 @@ func AutoLogin(cookie string) (*colly.Collector, error) {
 }
 
 // 登录填报系统
-func Login(studentID, password, code string) (*colly.Collector, error) {
+func Login(studentInfo StudentInfo, studentID, password, code string) (*colly.Collector, StudentInfo, error) {
 	var c = colly.NewCollector()
 	var logErr error
 
@@ -59,7 +61,7 @@ func Login(studentID, password, code string) (*colly.Collector, error) {
 	}
 
 	c.OnRequest(func(r *colly.Request) {
-		r.Headers.Set("Cookie", "ASP.NET_SessionId="+CodeCookie)
+		r.Headers.Set("Cookie", "ASP.NET_SessionId="+studentInfo.CodeCookie)
 	})
 
 	c.OnResponse(func(r *colly.Response) {
@@ -69,7 +71,7 @@ func Login(studentID, password, code string) (*colly.Collector, error) {
 		if len(siteCokkie) > 0 {
 			for _, cc := range siteCokkie {
 				if cc.Name == "CenterSoftWeb" {
-					CenterSoftWeb = cc.Value
+					studentInfo.CenterSoftWeb = cc.Value
 					logErr = nil
 				} else {
 					logErr = errors.New("登录失败")
@@ -90,14 +92,14 @@ func Login(studentID, password, code string) (*colly.Collector, error) {
 	})
 
 	if err != nil {
-		return nil, err
+		return nil, studentInfo, err
 	}
 
 	if logErr != nil {
-		return nil, logErr
+		return nil, studentInfo, logErr
 	}
 
-	return c, nil
+	return c, studentInfo, nil
 }
 
 // 退出填报系统
@@ -124,10 +126,11 @@ func GetLoginForm(c *colly.Collector, loginForm LoginForm) LoginForm {
 }
 
 //获取验证码
-func GetLoginCode() (base64Img string, err error) {
+func GetLoginCode() (base64Img string, codeCookies string, err error) {
 	var c = colly.NewCollector()
 	var logErr error
-
+	base64Img = ""
+	codeCookies = ""
 	c.OnResponse(func(r *colly.Response) {
 		srcByte, err := ioutil.ReadAll(bytes.NewReader(r.Body))
 		if err != nil {
@@ -138,7 +141,7 @@ func GetLoginCode() (base64Img string, err error) {
 		siteCokkie := c.Cookies(config.XG_DOMAIN + "/SPCP/Web/")
 		for _, cc := range siteCokkie {
 			if cc.Name == "ASP.NET_SessionId" {
-				CodeCookie = cc.Value
+				codeCookies = cc.Value
 			}
 		}
 	})
@@ -146,8 +149,11 @@ func GetLoginCode() (base64Img string, err error) {
 	_ = c.Visit(config.XG_DOMAIN + "/SPCP/Web/Account/GetLoginVCode")
 
 	if logErr != nil {
-		return "", logErr
+		return "", "", logErr
 	}
-
-	return base64Img, nil
+	if codeCookies == "" || base64Img == "" {
+		logErr = errors.New("验证码获取失败")
+		return "", "", logErr
+	}
+	return base64Img, codeCookies, nil
 }
