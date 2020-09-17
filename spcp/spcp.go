@@ -61,6 +61,7 @@ func Login(studentID, password, code, codeCookie string) (*colly.Collector, stri
 
 	c.OnResponse(func(r *colly.Response) {
 		//res := string(r.Body)
+
 		//println(res)
 		siteCokkie := c.Cookies(config.XG_DOMAIN + "/SPCP/Web/")
 		if len(siteCokkie) > 0 {
