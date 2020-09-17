@@ -68,8 +68,6 @@ func Login(studentID, password, code, codeCookie string) (*colly.Collector, stri
 				if cc.Name == "CenterSoftWeb" {
 					CenterSoftWeb = cc.Value
 					logErr = nil
-				} else {
-					logErr = errors.New("登录失败")
 				}
 			}
 		} else {
@@ -91,7 +89,7 @@ func Login(studentID, password, code, codeCookie string) (*colly.Collector, stri
 	}
 
 	if logErr != nil {
-		return nil, CenterSoftWeb, logErr
+		return nil, CenterSoftWeb, errors.New("登录失败")
 	}
 
 	return c, CenterSoftWeb, nil
