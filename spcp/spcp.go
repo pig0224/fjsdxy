@@ -90,6 +90,10 @@ func Login(studentID, password, code, codeCookie string) (*colly.Collector, stri
 	}
 
 	if logErr != nil {
+		return nil, CenterSoftWeb, logErr
+	}
+
+	if CenterSoftWeb == "" {
 		return nil, CenterSoftWeb, errors.New("登录失败")
 	}
 
