@@ -49,10 +49,10 @@ func AutoLogin(cookie string) (*colly.Collector, error) {
 }
 
 // 登录填报系统
-func Login(studentInfo StudentInfo, studentID, password, code string) (*colly.Collector, StudentInfo, error) {
+func Login(studentInfo StudentInfo, studentID, password, code string) (*colly.Collector, string, error) {
 	var c = colly.NewCollector()
 	var logErr error
-
+	var CenterSoftWeb = ""
 	loginForm := LoginForm{StudentId: studentID, Password: password, Code: code}
 	loginForm = GetLoginForm(c, loginForm)
 
@@ -71,7 +71,7 @@ func Login(studentInfo StudentInfo, studentID, password, code string) (*colly.Co
 		if len(siteCokkie) > 0 {
 			for _, cc := range siteCokkie {
 				if cc.Name == "CenterSoftWeb" {
-					studentInfo.CenterSoftWeb = cc.Value
+					CenterSoftWeb = cc.Value
 					logErr = nil
 				} else {
 					logErr = errors.New("登录失败")
@@ -92,14 +92,14 @@ func Login(studentInfo StudentInfo, studentID, password, code string) (*colly.Co
 	})
 
 	if err != nil {
-		return nil, studentInfo, err
+		return nil, CenterSoftWeb, err
 	}
 
 	if logErr != nil {
-		return nil, studentInfo, logErr
+		return nil, CenterSoftWeb, logErr
 	}
 
-	return c, studentInfo, nil
+	return c, CenterSoftWeb, nil
 }
 
 // 退出填报系统
